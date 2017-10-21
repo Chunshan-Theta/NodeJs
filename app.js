@@ -7,12 +7,19 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+//app.set('views', path.join(__dirname, 'views'));
+//app.set('view engine', 'jade');
+/* 删掉express默认配置jade的两行代码,注册ejs模板为html页,就是原来以.ejs为后缀的模板页，现在的后缀名可以是.html了 */
+app.engine('.html', require('ejs').__express);
+/* 设置视图模板的默认后缀名为.html,避免了每次res.Render("xx.html")的尴尬 */
+app.set('view engine', 'html');
+/* 设置模板文件文件夹,__dirname为全局变量,表示网站根目录 */
+app.set('views', __dirname + '/views'); 
+
+
 
 app.use(favicon());
 app.use(logger('dev'));
