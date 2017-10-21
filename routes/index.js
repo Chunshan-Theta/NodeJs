@@ -11,14 +11,19 @@ router.get('/', function(req, res) {
 });
 
 /* GET socket page. */
-router.get('/s', function(req, res, next) {
-    res.render('index',{title:'技术讨论区'});
+router.get('/s', function(req, res) {
+    var ID = req.param('create', null)
+    var ip = req.connection.remoteAddress;
+    if(ID==null){
+       ID = req.param('add', null)
+    }
+    else{     
+       ID = ID+ip
+    }
+    
+    console.log('ip:'+ip)
+    res.render('index',{title:'聊天室：',room:ID});
 });
-/* GET socket page. */
-router.get('/w', function(req, res, next) {
-    res.render('index2',{title:'技术讨论区'});
-});
-
 
 
 module.exports = router;
