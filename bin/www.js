@@ -14,8 +14,8 @@ var io = require('socket.io')(server);
 
 io.on('connection', function(socket){
     socket.on('Push_message', function(msg,roomID){
-        console.log('roomID:'+roomID)
-        console.log('msg:'+msg)
+        console.log('In roomID:'+roomID)
+        console.log(msg)
         io.emit(roomID+'_upload_message', msg);
     });
     

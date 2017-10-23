@@ -7,22 +7,40 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-    res.render('index', { title: 'Express' });
+    res.render('index',{});
 });
 
-/* GET socket page. */
-router.get('/s', function(req, res) {
+/* GET EntranceForChat page. */
+router.get('/EntranceForChat', function(req, res) {
+    res.render('EntranceForChat',{});
+});
+
+/* GET ChatRoom page. */
+router.post('/Chat', function(req, res) {
+    var user = req.param('user', null)
     var ID = req.param('create', null)
-    var ip = req.connection.remoteAddress;
+    var ip = req.connection.remoteAddress.substring(7);
+    console.log('ip:'+ip)
+
     if(ID==null){
        ID = req.param('add', null)
+       console.log('"'+ip+'" '+'add chat: '+ID)
     }
-    else{     
-       ID = ID+ip
+    else{            
+       ID = ID+'-'+ip
+       console.log('"'+ip+'" '+'Create chat: '+ID)
+    }
+
+    if(user==null){       
+       user = "anonymous"+' ~ xxxx.xxx...'+ip.substring(7)
+       console.log('"'+ip+'" '+'Set anonymous UserName: '+user) 
+    }
+    else{
+       user=user+' ~ '+ip
+       console.log('"'+ip+'" '+'Set UserName: '+user)
     }
     
-    console.log('ip:'+ip)
-    res.render('index',{title:'聊天室：',room:ID});
+    res.render('ChatroomPage',{title:'聊天室代號：',room:ID,UserName:user});
 });
 
 
