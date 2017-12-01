@@ -50,22 +50,14 @@ router.post('/Chat', function(req, res) {
 /* GET argument page. */
 router.get('/argument', function(req, res) {
 
-    this.QuestionDoc = null;  
-    this.ActionDoc = null;  
-
-	var sql = require('./Model/MysqlSet.js');
-    connection = new sql('argument');
-    connection.query("SELECT * FROM `QuestionDoc`",function(returnValue) {      
-        this.QuestionDoc = returnValue;
-    });
-    
-    connection.query("SELECT * FROM `ActionDoc`",function(returnValue) {
-        this.ActionDoc = returnValue;
-        connection.close();
+    var controller = require('./Controller/argument.js');
+    c = new controller();
 
 
-        console.log(this.QuestionDoc);
-        console.log(this.ActionDoc);
+    c.controller(function(QuestionDoc,ActionDoc){
+
+        console.log(QuestionDoc);
+        console.log(ActionDoc);
         var user = '123'//req.param('user', null);
         var ID = '123'//req.param('create', null);
         var ip =  req.connection.remoteAddress.substring(7);
@@ -74,8 +66,9 @@ router.get('/argument', function(req, res) {
         
         res.render('argument/ChatroomPage',{title:'聊天室代號：',room:ID,UserName:user});
     });
+    
+    
 });
-
 
 
 
